@@ -6,7 +6,19 @@ import Playlist from "./pages/Playlist";
 import PlaylistDetails from "./pages/PlaylistDetails";
 import TopArtists from "./pages/TopArtists";
 import TopTracks from "./pages/TopTracks";
-import "./App.css";
+import styled from "styled-components/macro"
+import { GlobalStyle } from './styles';
+
+
+
+const StyledLoginButton = styled.a`
+  background-color: var(--green);
+  color: var(--white);
+  padding: 10px 20px;
+  margin: 20px auto;
+  border-radius: 30px;
+  display: inline-block;
+`;
 
 function App() {
   const [token, setToken] = useState(null);
@@ -25,6 +37,7 @@ function App() {
 
   return (
     <div className="App">
+      <GlobalStyle />
       <header className="App-header">
         {token ? (
           <>
@@ -37,9 +50,9 @@ function App() {
             </Routes>
           </>
         ) : (
-          <a className="App-link" href="http://localhost:8888/login">
+          <StyledLoginButton href="http://localhost:8888/login">
             Login to spotify
-          </a>
+          </StyledLoginButton>
         )}
       </header>
     </div>
@@ -50,6 +63,7 @@ function App() {
       <>
         {profile && (
           <div>
+            <button onClick={logout}>Logout</button>
             <h1>{profile.display_name}</h1>
             <p>{profile.followers.total} Followers</p>
           </div>
