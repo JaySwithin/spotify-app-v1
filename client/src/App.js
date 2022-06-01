@@ -4,10 +4,8 @@ import { catchErrors } from "./utils";
 import { Routes, Route } from "react-router-dom";
 import Playlist from "./pages/Playlist";
 import PlaylistDetails from "./pages/PlaylistDetails";
-import TopArtists from "./pages/TopArtists";
-import TopTracks from "./pages/TopTracks";
 import { GlobalStyle } from './styles';
-import { Login, Profile } from "./pages";
+import { Login, Profile, TopArtists, TopTracks } from "./pages";
 import styled from 'styled-components/macro';
 
 
