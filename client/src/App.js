@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 import { accessToken, logout, getCurrentUserProfile } from "./spotify";
 import { catchErrors } from "./utils";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Playlist from "./pages/Playlist";
 import PlaylistDetails from "./pages/PlaylistDetails";
 import TopArtists from "./pages/TopArtists";
 import TopTracks from "./pages/TopTracks";
-import styled from "styled-components/macro"
 import { GlobalStyle } from './styles';
+import { Login, Profile } from "./pages";
+import styled from 'styled-components/macro';
 
 
-
-const StyledLoginButton = styled.a`
-  background-color: var(--green);
+const StyledLogoutButton = styled.button`
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(0,0,0,.7);
   color: var(--white);
-  padding: 10px 20px;
-  margin: 20px auto;
-  border-radius: 30px;
-  display: inline-block;
+  font-size: var(--fz-sm);
+  font-weight: 700;
+  border-radius: var(--border-radius-pill);
+  z-index: 10;
+  @media (min-width: 768px) {
+    right: var(--spacing-lg);
+  }
 `;
+
 
 function App() {
   const [token, setToken] = useState(null);
@@ -41,8 +49,9 @@ function App() {
       <header className="App-header">
         {token ? (
           <>
+          <StyledLogoutButton onClick={logout}>Log Out</StyledLogoutButton>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Profile />} />
               <Route path="/top-artists" element={<TopArtists />} />
               <Route path="/top-tracks" element={<TopTracks />} />
               <Route path="/playlist" element={<Playlist />} />
@@ -50,27 +59,12 @@ function App() {
             </Routes>
           </>
         ) : (
-          <StyledLoginButton href="http://localhost:8888/login">
-            Login to spotify
-          </StyledLoginButton>
+          <Login />
         )}
       </header>
     </div>
   );
 
-  function Home() {
-    return (
-      <>
-        {profile && (
-          <div>
-            <button onClick={logout}>Logout</button>
-            <h1>{profile.display_name}</h1>
-            <p>{profile.followers.total} Followers</p>
-          </div>
-        )}
-      </>
-    );
-  }
 }
 
 export default App;
