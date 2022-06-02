@@ -24,7 +24,8 @@ URL: https://spotifyapp-v1.herokuapp.com
   - Run ``$ npm start`` to start the express and client server on port 8888 and 3000 respectively.
 
 
-## Resources used
+### Resources used
 
--[Spotify Developer Documentation](https://developer.spotify.com/documentation/general/guides/authorization/)
--[Brittiny's Course](https://www.newline.co/courses/build-a-spotify-connected-app)
+  -[Spotify Developer Documentation](https://developer.spotify.com/documentation/general/guides/authorization/)
+
+  -[Brittiny's Course](https://www.newline.co/courses/build-a-spotify-connected-app)
