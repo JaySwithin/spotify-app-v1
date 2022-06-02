@@ -3,11 +3,16 @@ require("dotenv").config();
 const querystring = require("querystring");
 const axios = require("axios");
 const app = express();
-const PORT = 8888;
+const path = require('path');
+const PORT = process.env.PORT || 8888;
 
 CLIENT_ID = process.env.CLIENT_ID;
 CLIENT_SECRET = process.env.CLIENT_SECRET;
 REDIRECT_URI = process.env.REDIRECT_URI;
+FRONTEND_URI = process.env.FRONTEND_URI;
+
+// Priority serve any static files.
+app.use(express.static(path.resolve(__dirname, './client/build')));
 
 app.get("/", (req, res) => {
   res.send("Express app is working");
@@ -29,8 +34,12 @@ app.get("/login", (req, res) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  const scope = "user-read-private user-read-email";
-
+  const scope = [
+    'user-read-private',
+    'user-read-email',
+    'user-top-read',
+  ].join(' ');
+  
   const queryParams = querystring.stringify({
     client_id: CLIENT_ID,
     response_type: "code",
@@ -73,7 +82,7 @@ app.get("/callback", (req, res) => {
         })
 
         // redirect to react app
-        res.redirect(`http://localhost:3000/?${queryParams}`)
+        res.redirect(`${FRONTEND_URI}/?${queryParams}`)
 
 
         // pass along query params
@@ -109,6 +118,11 @@ app.get('/refresh_token', (req, res) => {
     .catch(error => {
       res.send(error);
     });
+});
+
+// All remaining requests return the React app, so it can handle routing.
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
 
 app.listen(PORT, () => {
